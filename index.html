@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>微信机器人-群发设置</title>
+        <link rel="stylesheet" type="text/css" href="resource/themes/material-teal/easyui.css">
+        <link rel="stylesheet" type="text/css" href="resource/themes/icon.css">
+        <link rel="stylesheet" type="text/css" href="resource/themes/demo.css">
+        <script type="text/javascript" src="resource/jquery.min.js"></script>
+        <script type="text/javascript" src="resource/jquery.easyui.min.js"></script>
+        <script type="text/javascript" src="resource/easyui-lang-zh_CN.js"></script>
+        <script type="text/javascript" src="resource/index.js"></script>
+    </head>
+    <body>
+		<div class="easyui-tabs" data-options="tabWidth:200,tabHeight:60,width:820,height:600">
+			<div title="微信机器人-群发文案">
+				<form id="f1" method="post" data-options="url:'http://127.0.0.1:8810/cssasutd_wxbot_api.php'">
+					<div style="margin-bottom:20px">
+						<input type="hidden" name="type" value="100"/>
+						<input type="hidden" name="msg_type" value="1"/>
+						<input type="hidden" name="key" value="344523435"/>
+						<input type="hidden" id="f1_msg_txt" name="msg"/>
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="from_wxid" style="width:90%" data-options="label:'微信ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="robot_wxid" style="width:90%" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f1_msg_content" name="msg_content" style="width:90%;height:120px" data-options="label:'消息文本:',multiline:true,required:true">
+					</div>
+				</form>
+				<div style="text-align:center;padding:5px 0">
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm1()" style="width:80px">Submit</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm1()" style="width:80px">Clear</a>
+				</div>
+			</div>
+			<div title="微信机器人-群发图文">
+				<form id="f2" method="post" data-options="url:'http://127.0.0.1:8810/cssasutd_wxbot_api.php'">
+					<div style="margin-bottom:20px">
+						<input type="hidden" name="type" value="100"/>
+						<input type="hidden" name="msg_type" value="1"/>
+						<input type="hidden" name="key" value="344523435"/>
+						<input type="hidden" id="f2_msg_txt" name="msg"/>
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="from_wxid" style="width:90%" data-options="label:'微信ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="robot_wxid" style="width:90%" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f2_msg_title" name="msg_title" style="width:90%" data-options="label:'链接标题:',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f2_msg_content" name="msg_content" style="width:90%;height:120px" data-options="label:'链接内容:',multiline:true,required:true">
+					</div>					
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f2_msg_url" name="msg_url" style="width:90%;height:60px" data-options="label:'跳转链接:',multiline:true,required:true">
+					</div>					
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f2_msg_pic" name="msg_pic" style="width:90%;height:60px" data-options="label:'图片链接:',multiline:true,required:true">
+					</div>
+				</form>
+				<div style="text-align:center;padding:5px 0">
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm2()" style="width:80px">Submit</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm2()" style="width:80px">Clear</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
