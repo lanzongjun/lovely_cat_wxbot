@@ -71,20 +71,39 @@ function command( $bot ) { //管理员命令解析器
 					$bot->sendTextMsg( '参数格式不合法！' );
 				}
 				break;
-			case '群发':
+			case '群发文案':
 				//首先验证命令合法性
 				$gp_list = $bot->getGroupList( $bot->robot_wxid, 1 );
 				$gp_list_array = json_decode( $gp_list );
 				$gp_array = [];
 				foreach ( $gp_list_array as $k => $gp_info ) {
-					$gp_array[] = $gp_info->wxid;
+				    if (in_array($gp_info->wxid,$bot->config[ 'group_main' ])) {
+                        $gp_array[] = $gp_info->wxid;
+                    }
 				}
 				if ( $deco_msg->参数 != null and is_string( $deco_msg->参数 ) ) {
 					foreach ( $bot->config[ 'group_main' ] as $name => $qun_id ) {
 						sleep( 1 );
 						if ( in_array( $qun_id, $gp_array ) ) {
-							$bot->sendTextMsg( $deco_msg->参数, $bot->robot_wxid, $qun_id );
-						} else {
+
+
+							// 发送链接
+//                            $bot->sendLinkMsg( '来了！新闻早班车', '昨夜，你错过了哪些大事？今天，有什么新闻将发生？',
+//                                'https://mp.weixin.qq.com/s/rUTUhZYXLHFe3RGwo7p2xQ',
+//                                'https://mmbiz.qpic.cn/mmbiz_jpg/xrFYciaHL08C87keYqK2yYzibFibjCxNApznAmBQCdI9gAmT5Qq65icQ2rxjkK3DsxDBZbiaVWUsm1pUBSq7x3KP0icQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1',
+//                                $bot->robot_wxid,
+//                                $qun_id );
+
+                            // 发送文字
+                            $bot->sendTextMsg(
+                                $deco_msg->参数,
+                                $bot->robot_wxid,
+                                $qun_id
+                            );
+
+                            echo "success";
+
+                        } else {
 							$bot->sendTextMsg( $qun_id . '不在群聊列表，群发消息失败！' );
 						}
 					}
@@ -94,6 +113,42 @@ function command( $bot ) { //管理员命令解析器
 					$bot->sendTextMsg( '参数格式不合法！' );
 				}
 				break;
+            case "群发图文":
+                $gp_list = $bot->getGroupList( $bot->robot_wxid, 1 );
+                $gp_list_array = json_decode( $gp_list );
+                $gp_array = [];
+                foreach ( $gp_list_array as $k => $gp_info ) {
+                    if (in_array($gp_info->wxid,$bot->config[ 'group_main' ])) {
+                        $gp_array[] = $gp_info->wxid;
+                    }
+                }
+                if ( $deco_msg->参数 != null and is_object( $deco_msg->参数 ) ) {
+                    foreach ( $bot->config[ 'group_main' ] as $name => $qun_id ) {
+                        sleep( 1 );
+                        if ( in_array( $qun_id, $gp_array ) ) {
+
+                            // 发送链接
+                            $bot->sendLinkMsg(
+                                $deco_msg->参数->链接标题,
+                                $deco_msg->参数->链接内容,
+                                $deco_msg->参数->跳转链接,
+                                $deco_msg->参数->图片链接,
+                                $bot->robot_wxid,
+                                $qun_id );
+
+                            echo "success";
+
+                        } else {
+                            $bot->sendTextMsg( $qun_id . '不在群聊列表，群发消息失败！' );
+                        }
+                    }
+                    sleep( 1 );
+                    $bot->sendTextMsg( '群发消息成功！' );
+                } else {
+                    $bot->sendTextMsg( '参数格式不合法！' );
+                }
+                break;
+
 			default:
 				$bot->sendTextMsg( '无法识别命令！' );
 				break;

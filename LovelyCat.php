@@ -47,7 +47,7 @@ class lovelyCat {
 	/**
 	 * @var string 机器猫接口地址
 	 */
-	public $url = "http://127.0.0.1:8073/send";
+	public $url = "http://192.168.2.69:8073/send";
 	public $ckey = ''; //秘钥，默认为空
 
 	public
@@ -57,6 +57,20 @@ class lovelyCat {
 			$this->url = $config[ 'url' ];
 		}
 		$this->parseWechat( $_POST );
+
+//        $this->parseWechat( [
+//            'type' => 100,
+//            //'from_wxid' => 'wxid_ci4ski7wxyzw22',
+//            'from_wxid' => 'lanzongjun',
+//            'msg_type' => 1,
+//            'msg' => json_encode([
+//                '命令' => '群发',
+//                '参数' => '测试111'
+//            ]),
+//            //'msg' => '群列表',
+//            //'robot_wxid' => 'wxid_ci4ski7wxyzw22'
+//            'robot_wxid' => 'lanzongjun'
+//        ] );
 	}
 
 	/**
@@ -391,7 +405,6 @@ class lovelyCat {
 	public
 
 	function getGroupList( $robwxid = '', $is_refresh = 0 ) {
-
 		$data = array();
 		$data[ 'type' ] = 205;
 		$data[ 'robot_wxid' ] = $robwxid; // 账户id（可选，如果填空字符串，即取所有登录账号的好友列表，反正取指定账号的列表）
