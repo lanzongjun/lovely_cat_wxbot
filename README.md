@@ -3,6 +3,7 @@
 本php程序基于**可爱猫框架**：  
 官网：http://www.keaimao.com  
 github：https://github.com/www-keaimao-com/sdk_http_php
+可爱猫下载：链接:https://pan.baidu.com/s/1zwaPrP6zBKGfq8KdOqpb3A  密码:tmhv
 
 ## 目前程序功能：  
 1.群聊之间消息转发，因为微信群人数上限500，可以通过创建多个群然后用机器人同步消息的方式来变相地突破上限。（**灵感来自于维基百科中文社群**）  
@@ -24,4 +25,8 @@ github：https://github.com/www-keaimao-com/sdk_http_php
 |群发|群发消息内容|{"指令":"群发","参数":"这是一条群发消息！"}|向所有主群（config.php里定义）群发消息|
 
 ## 使用注意：  
-使用前自行编辑config_sample.php并更名为config.php
+1.使用前自行编辑config_sample.php并更名为config.php
+2.修改allowed_ip为调用ip
+3.添加group_main中为可以调用的群id
+4.添加admin为管理员wxid
+5.修改url为调用框架地址
