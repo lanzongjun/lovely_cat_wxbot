@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>微信机器人-群发设置</title>
-        <link rel="stylesheet" type="text/css" href="resource/themes/material-teal/easyui.css">
+        <link rel="stylesheet" type="text/css" href="resource/themes/black/easyui.css">
         <link rel="stylesheet" type="text/css" href="resource/themes/icon.css">
         <link rel="stylesheet" type="text/css" href="resource/themes/demo.css">
         <script type="text/javascript" src="resource/jquery.min.js"></script>
@@ -12,23 +12,28 @@
         <script type="text/javascript" src="resource/index.js"></script>
     </head>
     <body>
-		<div class="easyui-tabs" data-options="tabWidth:200,tabHeight:60,width:820,height:600">
+		<div class="easyui-tabs" data-options="tabWidth:200,tabHeight:60,width:1500,height:800,border:true">
 			<div title="微信机器人-群发文案">
-				<form id="f1" method="post" data-options="url:'http://127.0.0.1:8810/cssasutd_wxbot_api.php'">
+				<form id="f1" method="post">
 					<div style="margin-bottom:20px">
 						<input type="hidden" name="type" value="100"/>
 						<input type="hidden" name="msg_type" value="1"/>
 						<input type="hidden" name="key" value="344523435"/>
 						<input type="hidden" id="f1_msg_txt" name="msg"/>
+						<input type="hidden" name="action" value="add"/>
+						<input type="hidden" name="post_type" value="1"/>
 					</div>
 					<div style="margin:0px 0px 20px 20px">
-						<input class="easyui-textbox" name="from_wxid" style="width:90%" data-options="label:'微信ID:',value:'lanzongjun',required:true">
+						<input class="easyui-textbox" name="from_wxid" style="width:200px" data-options="label:'微信ID:',value:'lanzongjun',required:true">
 					</div>
 					<div style="margin:0px 0px 20px 20px">
-						<input class="easyui-textbox" name="robot_wxid" style="width:90%" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
+						<input class="easyui-textbox" name="robot_wxid" style="width:200px" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
 					</div>
 					<div style="margin:0px 0px 20px 20px">
 						<input class="easyui-textbox" id="f1_msg_content" name="msg_content" style="width:90%;height:120px" data-options="label:'消息文本:',multiline:true,required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-datetimebox" id="f1_send_time" name="send_time" style="width:300px;" data-options="label:'发送时间:',required:true">
 					</div>
 				</form>
 				<div style="text-align:center;padding:5px 0">
@@ -37,18 +42,20 @@
 				</div>
 			</div>
 			<div title="微信机器人-群发图文">
-				<form id="f2" method="post" data-options="url:'http://127.0.0.1:8810/cssasutd_wxbot_api.php'">
+				<form id="f2" method="post" data-options="">
 					<div style="margin-bottom:20px">
 						<input type="hidden" name="type" value="100"/>
 						<input type="hidden" name="msg_type" value="1"/>
 						<input type="hidden" name="key" value="344523435"/>
 						<input type="hidden" id="f2_msg_txt" name="msg"/>
+						<input type="hidden" name="action" value="add"/>
+						<input type="hidden" name="post_type" value="2"/>
 					</div>
 					<div style="margin:0px 0px 20px 20px">
-						<input class="easyui-textbox" name="from_wxid" style="width:90%" data-options="label:'微信ID:',value:'lanzongjun',required:true">
+						<input class="easyui-textbox" name="from_wxid" style="width:200px" data-options="label:'微信ID:',value:'lanzongjun',required:true">
 					</div>
 					<div style="margin:0px 0px 20px 20px">
-						<input class="easyui-textbox" name="robot_wxid" style="width:90%" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
+						<input class="easyui-textbox" name="robot_wxid" style="width:200px" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
 					</div>
 					<div style="margin:0px 0px 20px 20px">
 						<input class="easyui-textbox" id="f2_msg_title" name="msg_title" style="width:90%" data-options="label:'链接标题:',required:true">
@@ -62,11 +69,152 @@
 					<div style="margin:0px 0px 20px 20px">
 						<input class="easyui-textbox" id="f2_msg_pic" name="msg_pic" style="width:90%;height:60px" data-options="label:'图片链接:',multiline:true,required:true">
 					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-datetimebox" id="f2_send_time" name="send_time" style="width:300px;" data-options="label:'发送时间:',required:true">
+					</div>
 				</form>
 				<div style="text-align:center;padding:5px 0">
 					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm2()" style="width:80px">提交</a>
 					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm2()" style="width:80px">重置</a>
 				</div>
+			</div>
+
+			<div title="微信机器人-定时任务列表">
+				<div id="layout_room" class="easyui-layout" data-options="fit:true">
+					<div data-options="region:'center'">
+						<table id="dg" title='' class="easyui-datagrid" toolbar="#dom_toolbar1" data-options="border:false,fit:true,rownumbers:true,singleSelect:true,pagination:true,pageSize:50,pageList: [50, 100, 200, 300]">
+							<thead>
+							<tr>
+								<th data-options="width:100,align:'center',field:'id'">任务ID</th>
+								<th data-options="width:150,align:'center',field:'wx_id'">微信ID</th>
+								<th data-options="width:150,align:'center',field:'robot_id'">机器人ID</th>
+								<th data-options="width:100,align:'center',field:'post_type_msg'">类型</th>
+								<th data-options="width:300,align:'center',field:'send_time'">发送时间</th>
+								<th data-options="width:400,align:'center',field:'content'">内容</th>
+								<th data-options="width:100,align:'center',field:'status_msg'">状态</th>
+							</tr>
+							</thead>
+						</table>
+						<div id="dom_toolbar1">
+							<div>
+								<a id="btn_edit" href="#" data-options="iconCls:'icon-edit'" class="easyui-linkbutton">编辑</a>
+								<a id="btn_remove" href="#" data-options="iconCls:'icon-remove'" class="easyui-linkbutton">删除</a>
+								<span class="datagrid-btn-separator" style="vertical-align: middle;display:inline-block;float:none"></span>
+							</div>
+						</div>
+					</div>
+					<div data-options="region:'south',title:'内容详情',hideCollapsedContent:false,collapsed:true,split:true" style="height: 20%">
+						<div id="detail_content"></div>
+					</div>
+				</div>
+
+
+				<div id="d_edit_image_task" class="easyui-window" title="编辑任务" data-options="modal:true,closed:true,iconCls:'icon-edit'" style="width:700px;height:450px;padding:5px;">
+					<form id="f_edit_image_task" method="post">
+						<table>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="wx_id" data-options="labelWidth:'90',label:'微信ID:',width:'240px',required:true">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="robot_id" data-options="labelWidth:'90',label:'机器人ID:',width:'240px',required:true">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="msg_title" data-options="labelWidth:'90',label:'链接标题:',multiline:true,width:'500px',height:'50px',required:true">
+									</div>
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="msg_content" data-options="labelWidth:'90',label:'链接内容:',multiline:true,width:'500px',height:'50px',required:true">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="msg_url" data-options="labelWidth:'90',label:'跳转链接:',multiline:true,width:'500px',height:'50px',required:true">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="msg_pic" data-options="labelWidth:'90',label:'图片链接:',multiline:true,width:'500px',height:'50px',required:true">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-datetimebox" name="send_time" data-options="labelWidth:'90',label:'发送时间:',width:'300px'">
+									</div>
+								</td>
+							</tr>
+						</table>
+						<input name="id" type="hidden"/>
+						<input name="post_type" type="hidden"/>
+						<input type="hidden" name="action" value="edit"/>
+						<div style="text-align:center;padding:5px 0">
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditImageForm()" style="width:80px">保存</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditImageWin()" style="width:80px">取消</a>
+						</div>
+					</form>
+				</div>
+
+				<div id="d_edit_text_task" class="easyui-window" title="编辑任务" data-options="modal:true,closed:true,iconCls:'icon-edit'" style="width:500px;height:340px;padding:5px;">
+					<form id="f_edit_text_task" method="post">
+						<table>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="wx_id" data-options="labelWidth:'90',label:'微信ID:',width:'240px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="robot_id" data-options="labelWidth:'90',label:'机器人ID:',width:'240px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="content" data-options="labelWidth:'90',label:'消息文本:',width:'400px',height:'120px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-datetimebox" name="send_time" data-options="labelWidth:'90',label:'发送时间:',width:'300px'">
+									</div>
+								</td>
+							</tr>
+						</table>
+						<input name="id" type="hidden"/>
+						<input name="post_type" type="hidden"/>
+						<input type="hidden" name="action" value="edit"/>
+						<div style="text-align:center;padding:5px 0">
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditTextForm()" style="width:80px">保存</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditTextWin()" style="width:80px">取消</a>
+						</div>
+					</form>
+				</div>
+
 			</div>
 		</div>
 	</body>

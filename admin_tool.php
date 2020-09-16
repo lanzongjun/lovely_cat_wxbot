@@ -95,13 +95,13 @@ function command( $bot ) { //管理员命令解析器
 //                                $qun_id );
 
                             // 发送文字
-                            $bot->sendTextMsg(
+                            $res = $bot->sendTextMsg(
                                 $deco_msg->参数,
                                 $bot->robot_wxid,
                                 $qun_id
                             );
 
-                            echo "success";
+                            return $res;
 
                         } else {
 							$bot->sendTextMsg( $qun_id . '不在群聊列表，群发消息失败！' );

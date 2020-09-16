@@ -52,11 +52,14 @@ class lovelyCat {
 
 	public
 
-	function __construct( $config = null ) {
+	function __construct( $config = null, $data = null ) {
 		if ( !empty( $config ) ) { //未配置，使用默认配置
 			$this->url = $config[ 'url' ];
 		}
-		$this->parseWechat( $_POST );
+
+		$postData = empty($data) ? $_POST : $data;
+
+		$this->parseWechat( $postData );
 
 //        $this->parseWechat( [
 //            'type' => 100,
