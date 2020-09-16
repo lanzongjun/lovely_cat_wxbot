@@ -32,9 +32,12 @@ foreach ($rows as $row) {
 
     $result = command( $cssasutd_wxbot );
 
-    if ($result !== false) {
+    if ($result['state'] !== false) {
         // 修改状态
         $changeResult = $task->changeStatus($row['id']);
+    } else {
+        echo $result['msg'];
+        exit();
     }
 
 }

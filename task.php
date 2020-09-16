@@ -113,7 +113,7 @@ class task
             $content = json_encode(array(
                 '命令' => '群发文案',
                 '参数' => $params['content']
-            ));
+            ),JSON_UNESCAPED_UNICODE);
         } else {
             // 图片
             $content = json_encode(array(
@@ -175,9 +175,10 @@ class task
 
     public function getUnSendTaskList()
     {
-        //查询代码
-        $now = date('Y-m-d H:i:s');
+        // 修改时区
+        $now = date('Y-m-d H:i:s', strtotime('+8 hour'));
 
+        //查询代码
         $sql = "SELECT * FROM task WHERE send_time <= '{$now}' and status = 0 and  is_deleted = 0";
 
         $query = $this->conn->query($sql);

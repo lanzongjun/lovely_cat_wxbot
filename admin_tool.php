@@ -74,6 +74,12 @@ function command( $bot ) { //管理员命令解析器
 			case '群发文案':
 				//首先验证命令合法性
 				$gp_list = $bot->getGroupList( $bot->robot_wxid, 1 );
+				if (empty($gp_list)) {
+				    return array(
+				        'state' => false,
+                        'msg'   => '群列表获取失败，请检查config url'
+                    );
+                }
 				$gp_list_array = json_decode( $gp_list );
 				$gp_array = [];
 				foreach ( $gp_list_array as $k => $gp_info ) {
@@ -101,7 +107,10 @@ function command( $bot ) { //管理员命令解析器
                                 $qun_id
                             );
 
-                            return $res;
+                            return array(
+                                'state' => $res === false ? false : true,
+                                'msg'   => ''
+                            );
 
                         } else {
 							$bot->sendTextMsg( $qun_id . '不在群聊列表，群发消息失败！' );
@@ -115,6 +124,12 @@ function command( $bot ) { //管理员命令解析器
 				break;
             case "群发图文":
                 $gp_list = $bot->getGroupList( $bot->robot_wxid, 1 );
+                if (empty($gp_list)) {
+                    return array(
+                        'state' => false,
+                        'msg'   => '群列表获取失败，请检查config url'
+                    );
+                }
                 $gp_list_array = json_decode( $gp_list );
                 $gp_array = [];
                 foreach ( $gp_list_array as $k => $gp_info ) {
@@ -128,7 +143,7 @@ function command( $bot ) { //管理员命令解析器
                         if ( in_array( $qun_id, $gp_array ) ) {
 
                             // 发送链接
-                            $bot->sendLinkMsg(
+                            $res = $bot->sendLinkMsg(
                                 $deco_msg->参数->链接标题,
                                 $deco_msg->参数->链接内容,
                                 $deco_msg->参数->跳转链接,
@@ -136,7 +151,10 @@ function command( $bot ) { //管理员命令解析器
                                 $bot->robot_wxid,
                                 $qun_id );
 
-                            echo "success";
+                            return array(
+                                'state' => $res === false ? false : true,
+                                'msg'   => ''
+                            );
 
                         } else {
                             $bot->sendTextMsg( $qun_id . '不在群聊列表，群发消息失败！' );
