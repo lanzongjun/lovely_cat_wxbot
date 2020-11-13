@@ -12,7 +12,7 @@
         <script type="text/javascript" src="resource/index.js"></script>
     </head>
     <body>
-		<div class="easyui-tabs" data-options="tabWidth:200,tabHeight:60,width:1500,height:800,border:true">
+		<div class="easyui-tabs" data-options="tabWidth:200,tabHeight:60,width:1500,height:700,border:true">
 			<div title="微信机器人-群发文案">
 				<form id="f1" method="post">
 					<div style="margin-bottom:20px">
@@ -78,6 +78,42 @@
 					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm2()" style="width:80px">重置</a>
 				</div>
 			</div>
+			<div title="微信机器人-群发图片">
+				<form id="f3" method="post">
+					<div style="margin-bottom:20px">
+						<input type="hidden" name="type" value="100"/>
+						<input type="hidden" name="msg_type" value="1"/>
+						<input type="hidden" name="key" value="344523435"/>
+						<input type="hidden" id="f3_msg_txt" name="msg"/>
+						<input type="hidden" name="action" value="add"/>
+						<input type="hidden" name="post_type" value="3"/>
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="from_wxid" style="width:200px" data-options="label:'微信ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" name="robot_wxid" style="width:200px" data-options="label:'机器人ID:',value:'lanzongjun',required:true">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-textbox" id="f3_msg_image" name="msg_content" style="width:90%;height:120px" data-options="label:'图片地址:',multiline:true,required:true,prompt:'图片链接使用参考底部辅助工具地址，获取图片网络地址后，添加到输入框内'">
+					</div>
+					<div style="margin:0px 0px 20px 20px">
+						<input class="easyui-datetimebox" id="f3_send_time" name="send_time" style="width:300px;"
+							   data-options="label:'发送时间:',required:true">
+					</div>
+				</form>
+				<div style="text-align:center;padding:5px 0">
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm3()" style="width:80px">提交</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm3()" style="width:80px">重置</a>
+				</div>
+
+				<div style="margin:10px 10px 20px 20px">
+					<strong>
+						图片上传辅助工具网址：https://postimages.org/
+					</strong>
+				</div>
+
+			</div>
 
 			<div title="微信机器人-定时任务列表">
 				<div id="layout_room" class="easyui-layout" data-options="fit:true">
@@ -109,8 +145,8 @@
 				</div>
 
 
-				<div id="d_edit_image_task" class="easyui-window" title="编辑任务" data-options="modal:true,closed:true,iconCls:'icon-edit'" style="width:700px;height:450px;padding:5px;">
-					<form id="f_edit_image_task" method="post">
+				<div id="d_edit_image_text_task" class="easyui-window" title="编辑任务" data-options="modal:true,closed:true,iconCls:'icon-edit'" style="width:700px;height:450px;padding:5px;">
+					<form id="f_edit_image__text_task" method="post">
 						<table>
 							<tr>
 								<td>
@@ -167,8 +203,8 @@
 						<input name="post_type" type="hidden"/>
 						<input type="hidden" name="action" value="edit"/>
 						<div style="text-align:center;padding:5px 0">
-							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditImageForm()" style="width:80px">保存</a>
-							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditImageWin()" style="width:80px">取消</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditImageTextForm()" style="width:80px">保存</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditImageTextWin()" style="width:80px">取消</a>
 						</div>
 					</form>
 				</div>
@@ -211,6 +247,49 @@
 						<div style="text-align:center;padding:5px 0">
 							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditTextForm()" style="width:80px">保存</a>
 							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditTextWin()" style="width:80px">取消</a>
+						</div>
+					</form>
+				</div>
+
+				<div id="d_edit_image_task" class="easyui-window" title="编辑任务" data-options="modal:true,closed:true,iconCls:'icon-edit'" style="width:500px;height:340px;padding:5px;">
+					<form id="f_edit_image_task" method="post">
+						<table>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="wx_id" data-options="labelWidth:'90',label:'微信ID:',width:'240px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="robot_id" data-options="labelWidth:'90',label:'机器人ID:',width:'240px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-textbox" name="msg_content"
+											   data-options="labelWidth:'90',label:'图片链接:',width:'400px',height:'120px'">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div style="margin-left:5px;margin-bottom:5px">
+										<input class="easyui-datetimebox" name="send_time" data-options="labelWidth:'90',label:'发送时间:',width:'300px'">
+									</div>
+								</td>
+							</tr>
+						</table>
+						<input name="id" type="hidden"/>
+						<input name="post_type" type="hidden"/>
+						<input type="hidden" name="action" value="edit"/>
+						<div style="text-align:center;padding:5px 0">
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="saveEditImageForm()" style="width:80px">保存</a>
+							<a href="javascript:void(0)" class="easyui-linkbutton" onclick="closeEditImageWin()" style="width:80px">取消</a>
 						</div>
 					</form>
 				</div>

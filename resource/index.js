@@ -26,12 +26,26 @@ function submitForm2(){
 	$('#f2').form('submit');
 }
 
+function submitForm3(){
+    var f1_msg_image = $('#f3_msg_image').val();
+    var o_msg = {
+        "命令":"群发图片",
+        "参数":f1_msg_image
+    };
+    $('#f3_msg_txt').val(JSON.stringify(o_msg));
+    $('#f3').form('submit');
+}
+
 function clearForm1(){
 	$('#f1').form('clear');
 }
 
 function clearForm2(){
 	$('#f2').form('clear');
+}
+
+function clearForm3(){
+    $('#f3').form('clear');
 }
 
 // 编辑
@@ -43,6 +57,7 @@ function showEditWin() {
         return;
     }
 
+
     if (parseInt(o_row.post_type) === 1) {
         $('#d_edit_text_task').window('open');
         $('#f_edit_text_task').form('load', {
@@ -53,10 +68,11 @@ function showEditWin() {
             post_type:o_row.post_type,
             content:$.parseJSON(o_row.content).参数
         });
-    } else {
+    }
+    if (parseInt(o_row.post_type) === 2) {
         var content = $.parseJSON(o_row.content).参数;
-        $('#d_edit_image_task').window('open');
-        $('#f_edit_image_task').form('load', {
+        $('#d_edit_image_text_task').window('open');
+        $('#f_edit_image_text_task').form('load', {
             id:o_row.id,
             wx_id:o_row.wx_id,
             robot_id:o_row.robot_id,
@@ -66,6 +82,17 @@ function showEditWin() {
             msg_content:content.链接内容,
             msg_url:content.跳转链接,
             msg_pic:content.图片链接
+        });
+    }
+    if (parseInt(o_row.post_type) === 3) {
+        $('#d_edit_image_task').window('open');
+        $('#f_edit_image_task').form('load', {
+            id:o_row.id,
+            wx_id:o_row.wx_id,
+            robot_id:o_row.robot_id,
+            send_time:o_row.send_time,
+            post_type:o_row.post_type,
+            msg_content:$.parseJSON(o_row.content).参数
         });
     }
 
@@ -98,12 +125,12 @@ function showRemoveWin() {
     });
 }
 
-function saveEditImageForm() {
-    $('#f_edit_image_task').form('submit');
+function saveEditImageTextForm() {
+    $('#f_edit_image_text_task').form('submit');
 }
 
-function closeEditImageWin() {
-    $('#d_edit_image_task').window('close');
+function closeEditImageTextWin() {
+    $('#d_edit_image_text_task').window('close');
 }
 
 function saveEditTextForm() {
@@ -112,6 +139,14 @@ function saveEditTextForm() {
 
 function closeEditTextWin() {
     $('#d_edit_text_task').window('close');
+}
+
+function saveEditImageForm() {
+    $('#f_edit_image_task').form('submit');
+}
+
+function closeEditImageWin() {
+    $('#d_edit_image_task').window('close');
 }
 
 
@@ -163,7 +198,7 @@ $(function () {
         }
     });
 
-    $('#f_edit_image_task').form({
+    $('#f3').form({
         url: './route.php',
         type: "POST",
         success: function (data) {
@@ -173,7 +208,20 @@ $(function () {
             } else {
                 $.messager.alert('错误-更新失败', o_response.msg, 'error');
             }
-            $('#d_edit_image_task').window('close');
+        }
+    });
+
+    $('#f_edit_image_text_task').form({
+        url: './route.php',
+        type: "POST",
+        success: function (data) {
+            var o_response = $.parseJSON(data);
+            if (o_response.state) {
+                $.messager.alert('信息-更新成功', o_response.msg, 'info');
+            } else {
+                $.messager.alert('错误-更新失败', o_response.msg, 'error');
+            }
+            $('#d_edit_image_text_task').window('close');
             $('#dg').datagrid('reload');
         }
     });
@@ -189,6 +237,21 @@ $(function () {
                 $.messager.alert('错误-更新失败', o_response.msg, 'error');
             }
             $('#d_edit_text_task').window('close');
+            $('#dg').datagrid('reload');
+        }
+    });
+
+    $('#f_edit_image_task').form({
+        url: './route.php',
+        type: "POST",
+        success: function (data) {
+            var o_response = $.parseJSON(data);
+            if (o_response.state) {
+                $.messager.alert('信息-更新成功', o_response.msg, 'info');
+            } else {
+                $.messager.alert('错误-更新失败', o_response.msg, 'error');
+            }
+            $('#d_edit_image_task').window('close');
             $('#dg').datagrid('reload');
         }
     });

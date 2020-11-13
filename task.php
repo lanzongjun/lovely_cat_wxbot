@@ -12,7 +12,8 @@ class task
 
     private $post_type_map = array(
         1 => '文案',
-        2 => '图文'
+        2 => '图文',
+        3 => '图片'
     );
 
     private $status_map = array(
@@ -114,8 +115,8 @@ class task
                 '命令' => '群发文案',
                 '参数' => $params['content']
             ),JSON_UNESCAPED_UNICODE);
-        } else {
-            // 图片
+        } elseif ($params['post_type'] == 2) {
+            // 图文
             $content = json_encode(array(
                 '命令' => '群发图文',
                 '参数' => array(
@@ -124,6 +125,12 @@ class task
                     '跳转链接' => $params['msg_url'],
                     '图片链接' => $params['msg_pic'],
                 )
+            ),JSON_UNESCAPED_UNICODE);
+        } else {
+            // 图片
+            $content = json_encode(array(
+                '命令' => '群发图片',
+                '参数' => $params['msg_content']
             ),JSON_UNESCAPED_UNICODE);
         }
 
